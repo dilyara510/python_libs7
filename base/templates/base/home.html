@@ -1,0 +1,18 @@
+{% extends 'main.html' %} {% block content %}
+
+<h1>home template</h1>
+
+<div>
+    <div>
+        {% for task in tasks %}
+        <div>
+            <h5>
+                {{task.id}} -- <a href="{% url 'task' task.id %}">{{task.name}}</a>
+            </h5>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
