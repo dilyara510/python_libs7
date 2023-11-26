@@ -3,7 +3,6 @@
 
 {%block content %}
 
-<h1>Файл home.html</h1>
 
 
 <h1>home template</h1>
@@ -13,7 +12,9 @@
         {% for task in tasks %}
         <div>
             <h5>
+                <span>@{{task.host.username}}</span>
                 {{task.id}} -- <a href="{% url 'task' task.id %}"> {{task.name}}</a>
+                <small>{{task.topic.name}}</small>
             </h5>
         </div>
 
