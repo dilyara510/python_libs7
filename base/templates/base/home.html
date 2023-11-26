@@ -8,10 +8,16 @@
 <h1>home template</h1>
 
 <div>
+
+    <a href="{% url 'create-task' %}">Create Task</a>
+
     <div>
         {% for task in tasks %}
         <div>
             <h5>
+                <a href="{% url 'update-task' task.id %}">Edit</a>
+                <a href="{% url 'delete-task' task.id %}">Delete</a>
+
                 <span>@{{task.host.username}}</span>
                 {{task.id}} -- <a href="{% url 'task' task.id %}"> {{task.name}}</a>
                 <small>{{task.topic.name}}</small>
