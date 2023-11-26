@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Task 
+from django.db.models import Q
+from .models import Task, Topic
 from .forms import TaskForm
 
 # tasks = [
@@ -10,8 +11,18 @@ from .forms import TaskForm
 
 
 def home(request):
-    tasks=Task.objects.all()
-    context = {'tasks': tasks}
+    q=request.GET.get('q') if request.GET.get('q')!=None else ''
+
+    tasks = Task.objects.filter(
+        Q(topic__name__icontains=q) |
+        Q(name__icontains=q) |
+        Q(description__icontains=q)
+    )
+    
+    
+    topics=Topic.objects.all()
+    task_count=tasks.count()
+    context = {'tasks': tasks,'topics':topics,'task_count':task_count}
     return render(request, 'base/home.html', context)
 
 
