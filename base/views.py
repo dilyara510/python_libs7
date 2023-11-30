@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Task, Topic
+from .models import Task, Topic, Message
 from .forms import TaskForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -72,13 +72,26 @@ def home(request):
     
     topics=Topic.objects.all()
     task_count=tasks.count()
-    context = {'tasks': tasks,'topics':topics,'task_count':task_count}
+    task_messages=Message.objects.all().filter(Q(task__topic__name__icontains=q))
+
+    context = {'tasks': tasks,'topics':topics,'task_count':task_count, 'task_messages':task_messages}
     return render(request, 'base/home.html', context)
 
 
 def task(request, pk):
     task = Task.objects.get(id=pk)
-    context = {'task': task}
+    task_messages=task.message_set.all().order_by('-created')
+
+    participants=task.participants.all()
+    if request.method=='POST':
+        message=Message.objects.create(
+            user=request.user,
+            task=task,
+            body=request.POST.get('body')
+        )
+        task.participants.add(request.user)
+        return redirect('task',pk=task.id)
+    context = {'task': task, 'task_messages':task_messages, 'participants':participants}
     return render(request, 'base/task.html', context)
 
 
@@ -125,3 +138,16 @@ def deleteTask(request,pk):
         return redirect('home')
 
     return render(request, 'base/delete.html',{'obj':task} )
+
+
+@login_required(login_url='login')
+def deleteMessage(request, pk):
+    message = Message.objects.get(id=pk)
+
+    if request.user != message.user:
+        return HttpResponse('Доступ запрещен!')
+
+    if request.method == 'POST':
+        message.delete()
+        return redirect('home')
+    return render(request, 'base/delete.html', {'obj': message})

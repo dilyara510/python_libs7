@@ -6,7 +6,7 @@
 <style>
     .home-container{
         display: grid;
-        grid-template-columns:1fr 3fr ;
+        grid-template-columns: 1fr 3fr 1fr;
     }
 
 </style>
@@ -16,17 +16,7 @@
 <div class="home-container">
 
     <div>
-        <h3>Темы заданий</h3>
-        <hr>
-
-        <div>
-            <a href="{% url 'home' %}">Все</a>    
-        </div>
-        {% for topic in topics %}
-            <div>
-                <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>    
-            </div>
-        {% endfor %}
+       {% include 'base/topics_component.html' %}
     </div>
 
     <div>
@@ -35,21 +25,12 @@
         <a href="{% url 'create-task' %}">Создать задание</a>
 
         <div>
-            {% for task in tasks %}
-            <div>
-                <h5>
-                    {% if request.user == task.host %}
-                    <a href="{% url 'update-task' task.id %}">Редактировать</a>
-                    <a href="{% url 'delete-task' task.id %}">Удалить</a>
-                    {% endif %}
-                    <span>@{{task.host.username}}</span>
-                    {{task.id}} -- <a href="{% url 'task' task.id %}"> {{task.name}}</a>
-                    <small>{{task.topic.name}}</small>
-                </h5>
-            </div>
-    
-            {% endfor %}
+            {% include 'base/feed_component.html' %}
         </div>
+    </div>
+
+    <div>
+        {% include 'base/activity_component.html' %}
     </div>
 
     

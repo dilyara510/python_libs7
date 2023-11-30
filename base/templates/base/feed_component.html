@@ -1,0 +1,13 @@
+{% for task in tasks %}
+            <div>
+                <h5>
+                    {% if request.user == task.host %}
+                    <a href="{% url 'update-task' task.id %}">Редактировать</a>
+                    <a href="{% url 'delete-task' task.id %}">Удалить</a>
+                    {% endif %}
+                    <span>@{{task.host.username}}</span>
+                    {{task.id}} -- <a href="{% url 'task' task.id %}"> {{task.name}}</a>
+                    <small>{{task.topic.name}}</small>
+                </h5>
+            </div>
+            {% endfor %}
