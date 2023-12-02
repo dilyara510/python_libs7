@@ -1,0 +1,25 @@
+<h1>gbnjf</h1>
+<div id='task-container' >
+
+</div>
+
+</div>
+<script>
+        let tasksContainer=document.getElementById('task-container')
+
+    let getTasks = async() => {
+        let response=await fetch('http://127.0.0.1:8000/api/tasks/')
+        let tasks=await response.json()
+        console.log('RESPONSE:', tasks)
+    
+    for (let i=0; tasks.lenght>i; i++)
+    {
+        let task=tasks[i]
+        let row = `<div>
+                            <h3>${task.name}</h3>
+                        </div>`
+        tasksContainer.innerHTML += row
+    }
+}
+    getTasks()
+</script>

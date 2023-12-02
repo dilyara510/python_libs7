@@ -28,4 +28,6 @@ urlpatterns = [
 
     path('update-user/', views.updateUser, name="update-user"),
 
+
+
 ]
