@@ -15,8 +15,8 @@
 
         <input type="submit" name="Login"/>
     </form>
-    <p>У вас уже есть аккаунт?</p>
-    <a href="{% url 'register' %}">Вход</a>
+    <p>Зарегистрироваться</p>
+    <a href="{% url 'register' %}">Регистрация</a>
 </div>
 
 {% else %}
@@ -24,13 +24,10 @@
     <form method="post" action="">
         {% csrf_token %}
         {{form.as_p}}
-        <label>Пароль:</label>
-
-        <input type="submit" value="Register" />
-        
+        <input type="submit" value="Зарегистрироваться" />
     </form>
     <p> Уже зарегистрированы?</p>
-    <a href="{% url 'register' %}">Вход</a>
+    <a href="{% url 'login' %}">Вход</a>
 
 </div>
 {% endif %}
