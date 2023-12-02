@@ -2,12 +2,11 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Task, Topic, Message
-from .forms import TaskForm, UserForm
+from .models import Task, Topic, Message, User
+from .forms import TaskForm, UserForm,MyUserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
 
 # tasks = [
 #     {'id': 1, 'name': 'Задание 1'},
@@ -21,15 +20,15 @@ def loginPage(request):
         return redirect('home')
 
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('username')
         password = request.POST.get('password')
 
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(username=email)
         except:
             messages.error(request, 'Пользователь не существует')
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=email, password=password)
 
         if user is not None:
             login(request, user)
@@ -41,10 +40,10 @@ def loginPage(request):
 
 def registerPage(request):
     page= 'register'
-    form = UserCreationForm()
+    form = MyUserCreationForm()
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = MyUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
@@ -99,12 +98,13 @@ def task(request, pk):
 #     return render(request,'base/task.html')
 
 def userProfile(request, pk):
-    user=User.objects.get(id=pk)
-    tasks=user.task_set.all()
-    task_messages=user.message_set.all()
-    topics=Topic.objects.all()
-    context={'user': user, 'tasks':tasks,'task_messages':task_messages,'topics':topics}
-    return render(request,'base/profile.html', context)
+    user = User.objects.get(id=pk)
+    tasks = user.task_set.all()
+    task_messages = user.message_set.all()
+    topics = Topic.objects.all()
+    context = {'user': user, 'tasks': tasks,
+               'task_messages': task_messages, 'topics': topics}
+    return render(request, 'base/profile.html', context)
 
 @login_required(login_url='login') 
 def createTask(request):
@@ -166,20 +166,18 @@ def deleteMessage(request, pk):
     return render(request, 'base/delete.html', {'obj': message})
 
 
-
 @login_required(login_url='login')
 def updateUser(request):
     user = request.user
     form = UserForm(instance=user)
 
     if request.method == 'POST':
-        form = UserForm(request.POST, instance=user)
+        form = UserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
             return redirect('user-profile', pk=user.id)
 
     return render(request, 'base/update-user.html', {'form': form})
-    
 
 def topicsPage(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
