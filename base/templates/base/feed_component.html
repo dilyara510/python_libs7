@@ -5,7 +5,9 @@
                     <a href="{% url 'update-task' task.id %}">Редактировать</a>
                     <a href="{% url 'delete-task' task.id %}">Удалить</a>
                     {% endif %}
-                    <span>@{{task.host.username}}</span>
+
+                    <a href="{% url 'user-profile' task.host.id %}"> @{{task.host.username}}</a>
+                   
                     {{task.id}} -- <a href="{% url 'task' task.id %}"> {{task.name}}</a>
                     <small>{{task.topic.name}}</small>
                 </h5>

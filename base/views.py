@@ -98,13 +98,23 @@ def task(request, pk):
 # def task(request,pk):
 #     return render(request,'base/task.html')
 
+def userProfile(request, pk):
+    user=User.objects.get(id=pk)
+    tasks=user.task_set.all()
+    task_messages=user.message_set.all()
+    topics=Topic.objects.all()
+    context={'user': user, 'tasks':tasks,'task_messages':task_messages,'topics':topics}
+    return render(request,'base/profile.html', context)
+
 @login_required(login_url='login') 
 def createTask(request):
     form=TaskForm()
     if request.method=='POST':
         form=TaskForm(request.POST)
         if form.is_valid():
-            form.save()
+            task=form.save(commit=False)
+            task.host=request.user
+            task.save()
             return redirect('home')
     context={'form':form}
     return render(request, 'base/task_form.html', context)
