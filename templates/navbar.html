@@ -6,10 +6,13 @@
     <input type="text" name="q" placeholder="Поиск задания..."/>
 
 </form>
+<a href="{% url 'update-user' %}">Редактировать профиль</a>
+
+
 
  {% if request.user.is_authenticated %}
 <p>Hello {{request.user}}</p>
-<a href="{% url 'logout' %}">Logout</a>
+<a href="{% url 'logout' %}">Выход</a>
 {% else %}
-<a href="{% url 'login' %}">Login</a>
+<a href="{% url 'login' %}">Вход</a>
 {% endif %} 
