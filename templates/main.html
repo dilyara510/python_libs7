@@ -22,7 +22,11 @@
 =======
     <title>Домашнее задание</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="stylesheet" type="text/css" media='screen' href="{% static 'styles/main.css' %}" />
+    <link rel="stylesheet" type="text/css" media='screen' href="{% static 'styles/main.css' %}
+    " />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/bootstrap.min.css' %}" />
+
+
 </head>
 
 
@@ -38,6 +42,7 @@
     </ul>
     {% endif %}
     <hr>
+
     
 
     {% block content %}
@@ -45,6 +50,12 @@
 
 >>>>>>> 52cbfbd74f821ccddb3502551a7f68197e596d39
     {% endblock %}
+
+
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+
 
 </body>
 

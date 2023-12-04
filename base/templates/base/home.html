@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-{% extends 'main.html' %} {% block content %}
-
-<h1>home template</h1>
-
-<div>
-    <div>
-        {% for task in tasks %}
-        <div>
-            <h5>
-                {{task.id}} -- <a href="{% url 'task' task.id %}">{{task.name}}</a>
-            </h5>
-        </div>
-
-        {% endfor %}
-    </div>
-=======
-
 {% extends 'main.html' %}
 
 {%block content %}
@@ -28,7 +10,7 @@
 
 </style>
 
-<!-- <h1>Главная</h1> -->
+<h1>Главная</h1>
 
 <div class="home-container">
 

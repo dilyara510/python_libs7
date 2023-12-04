@@ -1,11 +1,42 @@
-<h3>Темы заданий</h3>
-<hr>
+<div class="container mt-4">
+    <h3 class="mb-4">Темы заданий</h3>
+    <hr>
 
-<div>
-    <a href="{% url 'home' %}">Все</a>    
-</div>
-{% for topic in topics %}
-    <div>
-        <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>    
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Все</a>
     </div>
-{% endfor %}
+
+    <ul class="list-group" id="topicList">
+        {% for topic in topics %}
+          <li class="list-group-item {% if topic.name == selected_topic %}active{% endif %}" data-topic="{{ topic.name }}">
+            <a href="{% url 'home' %}?q={{ topic.name }}" class="stretched-link">
+              {{ topic.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+      
+      <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var topicList = document.getElementById("topicList");
+      
+        // Получаем текущий URL
+        var currentUrl = window.location.href;
+      
+        // Перебираем элементы списка и сравниваем URL
+        topicList.querySelectorAll(".list-group-item a").forEach(function(item) {
+          var itemUrl = item.getAttribute("href");
+      
+          if (currentUrl.includes(itemUrl)) {
+            // Если URL совпадает, добавляем класс 'active'
+            item.parentElement.classList.add("active");
+          }
+        });
+      });
+      </script>
+      
+      
+      
+      
+
+</div>
