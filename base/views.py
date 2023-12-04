@@ -60,18 +60,21 @@ def logoutUser(request):
     return redirect('home')
 
 def home(request):
-    q=request.GET.get('q') if request.GET.get('q')!=None else ''
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
 
     tasks = Task.objects.filter(
-        Q(topic__name__icontains=q) |
-        Q(name__icontains=q) |
-        Q(description__icontains=q)
+        Q(topic__name__icontains = q) |
+        Q(name__icontains = q) |
+        Q(description__icontains = q)
     )
     
     
-    topics=Topic.objects.all()
-    task_count=tasks.count()
-    task_messages=Message.objects.all().filter(Q(task__topic__name__icontains=q))
+    topics = Topic.objects.all()
+    task_count = tasks.count()
+    task_messages = Message.objects.all().filter(Q(task__topic__name__icontains = q))
 
     context = {'tasks': tasks,'topics':topics,'task_count':task_count, 'task_messages':task_messages}
     return render(request, 'base/home.html', context)
@@ -183,5 +186,3 @@ def topicsPage(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     topics = Topic.objects.filter(name__icontains=q)
     return render(request, 'base/topics.html', {'topics': topics})  
-
-   
