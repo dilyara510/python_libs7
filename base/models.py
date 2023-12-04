@@ -12,8 +12,6 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-
-
 class Topic(models.Model):
     name=models.CharField(max_length=200)
 
@@ -37,7 +35,6 @@ class Task(models.Model):
     def __str__(self):
         return self.name
     
-
 class Message(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     task=models.ForeignKey(Task, on_delete=models.CASCADE)
