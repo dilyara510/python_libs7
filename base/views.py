@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-from django.shortcuts import render
-
-
-tasks = [
-    {'id': 1, 'name': 'lab1'},
-    {'id': 2, 'name': 'lab2'},
-    {'id': 3, 'name': 'lab3'},
-]
-
-
-def home(request):
-    context = {'tasks': tasks}
-=======
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -91,19 +77,10 @@ def home(request):
     task_messages = Message.objects.all().filter(Q(task__topic__name__icontains = q))
 
     context = {'tasks': tasks,'topics':topics,'task_count':task_count, 'task_messages':task_messages}
->>>>>>> 52cbfbd74f821ccddb3502551a7f68197e596d39
     return render(request, 'base/home.html', context)
 
 
 def task(request, pk):
-<<<<<<< HEAD
-    task = None
-    for i in tasks:
-        if i['id'] == int(pk):
-            task = i
-    context = {'task': task}
-    return render(request, 'base/task.html', context)
-=======
     task = Task.objects.get(id=pk)
     task_messages=task.message_set.all().order_by('-created')
 
@@ -209,4 +186,3 @@ def topicsPage(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     topics = Topic.objects.filter(name__icontains=q)
     return render(request, 'base/topics.html', {'topics': topics})  
->>>>>>> 52cbfbd74f821ccddb3502551a7f68197e596d39
