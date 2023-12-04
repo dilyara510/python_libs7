@@ -39,10 +39,24 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     'base.apps.BaseConfig',
+<<<<<<< HEAD
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+=======
+    'rest_framework',
+    'corsheaders',
+]
+
+AUTH_USER_MODEL='base.User'
+
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+
+    "corsheaders.middleware.CorsMiddleware",
+
+>>>>>>> 52cbfbd74f821ccddb3502551a7f68197e596d39
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -107,9 +121,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
+<<<<<<< HEAD
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
+=======
+LANGUAGE_CODE = "ru-ru"
+
+TIME_ZONE = "Europe/Moscow"
+>>>>>>> 52cbfbd74f821ccddb3502551a7f68197e596d39
 
 USE_I18N = True
 
@@ -119,9 +139,29 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+<<<<<<< HEAD
 STATIC_URL = "static/"
+=======
+STATIC_URL = '/static/'
+MEDIA_URL = '/images/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
+MEDIA_ROOT = BASE_DIR / 'static/images'
+# STATIC_ROOT=[
+
+# ]
+>>>>>>> 52cbfbd74f821ccddb3502551a7f68197e596d39
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+<<<<<<< HEAD
+=======
+
+
+CORS_ALLOW_ALL_ORIGINS = True
+>>>>>>> 52cbfbd74f821ccddb3502551a7f68197e596d39

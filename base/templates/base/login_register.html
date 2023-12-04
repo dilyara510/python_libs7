@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% if page == 'login' %}
+<div>
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <label>Email:</label>
+        <input type="text" name="username" placeholder="Введите имя пользователя"/>
+
+        <label>Пароль:</label>
+        <input type="password" name="password" placeholder="Введите пароль"/>
+
+        <input type="submit" name="Login"/>
+    </form>
+    <p>Зарегистрироваться</p>
+    <a href="{% url 'register' %}">Регистрация</a>
+</div>
+
+{% else %}
+<div>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Зарегистрироваться" />
+    </form>
+    <p> Уже зарегистрированы?</p>
+    <a href="{% url 'login' %}">Вход</a>
+
+</div>
+{% endif %}
+
+{% endblock content %}
