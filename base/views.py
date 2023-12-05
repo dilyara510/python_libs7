@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Task, Topic, Message, User
-from .forms import TaskForm, UserForm,MyUserCreationForm
+from .forms import TaskForm, UserForm, MyUserCreationForm, MessageForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -47,6 +47,7 @@ def registerPage(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
+            user.role = 'user'
             user.save()
             login(request, user)
             return redirect('home')
@@ -59,6 +60,8 @@ def logoutUser(request):
     logout(request)
     return redirect('home')
 
+
+@login_required(login_url='login')
 def home(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -79,29 +82,66 @@ def home(request):
     context = {'tasks': tasks,'topics':topics,'task_count':task_count, 'task_messages':task_messages}
     return render(request, 'base/home.html', context)
 
+@login_required(login_url='login')
+def home(request):
+    if request.user.role == 'user':
+        q = request.GET.get('q') if request.GET.get('q') else ''
+        tasks = Task.objects.filter(
+            Q(topic__name__icontains=q) |
+            Q(name__icontains=q) |
+            Q(description__icontains=q)
+        )
+        topics = Topic.objects.all()
+        task_count = tasks.count()
+        task_messages = Message.objects.all().filter(Q(task__topic__name__icontains=q))
+
+        context = {'tasks': tasks, 'topics': topics, 'task_count': task_count, 'task_messages': task_messages}
+
+        return render(request, 'base/home_user.html', context)
+    elif request.user.role == 'admin':
+        q = request.GET.get('q') if request.GET.get('q') else ''
+        tasks = Task.objects.filter(
+            Q(topic__name__icontains=q) |
+            Q(name__icontains=q) |
+            Q(description__icontains=q)
+        )
+        topics = Topic.objects.all()
+        task_count = tasks.count()
+        task_messages = Message.objects.all().filter(Q(task__topic__name__icontains=q))
+
+        context = {'tasks': tasks, 'topics': topics, 'task_count': task_count, 'task_messages': task_messages}
+        return render(request, 'base/home.html', context)
+    else:
+        return redirect('login')
+
 
 def task(request, pk):
     task = Task.objects.get(id=pk)
-    task_messages=task.message_set.all().order_by('-created')
+    task_messages = task.message_set.all().order_by('-created')
+    participants = task.participants.all()
 
-    participants=task.participants.all()
-    if request.method=='POST':
-        message=Message.objects.create(
-            user=request.user,
-            task=task,
-            body=request.POST.get('body')
-        )
-        task.participants.add(request.user)
-        return redirect('task',pk=task.id)
-    context = {'task': task, 'task_messages':task_messages, 'participants':participants}
+    if request.method == 'POST':
+        form = MessageForm(request.POST, request.FILES)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.user = request.user
+            message.task = task
+            message.save()
+
+            task.participants.add(request.user)
+            success = True
+        else:
+            messages.error(request, 'Ошибка при отправке задания. Проверьте введенные данные.')
+
+    else:
+        form = MessageForm()
+
+    context = {'task': task, 'task_messages': task_messages, 'participants': participants, 'form': form}
     return render(request, 'base/task.html', context)
 
 
-# def task(request,pk):
-#     return render(request,'base/task.html')
-
 def userProfile(request, pk):
-    user = User.objects.get(id=pk)
+    user = User.objects.get(id = pk)
     tasks = user.task_set.all()
     task_messages = user.message_set.all()
     topics = Topic.objects.all()
@@ -109,7 +149,7 @@ def userProfile(request, pk):
                'task_messages': task_messages, 'topics': topics}
     return render(request, 'base/profile.html', context)
 
-@login_required(login_url='login') 
+@login_required(login_url = 'login') 
 def createTask(request):
     form=TaskForm()
     if request.method=='POST':
@@ -122,7 +162,7 @@ def createTask(request):
     context={'form':form}
     return render(request, 'base/task_form.html', context)
 
-@login_required(login_url='login')
+@login_required(login_url = 'login')
 def updateTask(request, pk):
     task = Task.objects.get(id=pk)
     form = TaskForm(instance=task)

@@ -1,11 +1,6 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<<<<<<< HEAD
-<h1>{{task.name}}</h1>
-
-{% endblock %}
-=======
 
 <style>
     .task-container{
@@ -38,18 +33,38 @@
                     <small>@{{message.user}}  {{message.created|timesince}}ago </small>
 
                     <p>{{message.body}}</p>
+
+                    {% if message.attachment %}
+                        <a href="{{ message.attachment.url }}" download>Скачать файл</a>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
 
-        {% if request.user.is_authenticated %}
-        <div class="comment-form">
-            <form method="POST" action="">
-                {% csrf_token %}
+        
 
-                <input type="text" name="body" placeholder="Оставьте ваш комментарий"/>
-            </form>
-        </div>
+        {% if request.user.is_authenticated %}
+        {% if success %}
+            <p>Задание успешно отправлено!</p>
+        {% else %}
+            <div class="comment-form">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" name="body" placeholder="Оставьте ваш комментарий"/>
+                    <input type="file" name="attachment"/>
+                    <button type="submit">Отправить</button>
+                </form>
+            </div>
+        {% endif %}   
+
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
     {% endif %}
     </div>
 
@@ -67,4 +82,3 @@
 </div>
 
 {% endblock %}
->>>>>>> 52cbfbd74f821ccddb3502551a7f68197e596d39
