@@ -1,33 +1,11 @@
-.home-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+.form__group input {
+    width: 100px; 
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid rgb(63, 48, 48)c3c;
+    border-radius: 4px;
     text-align: center;
 }
 
-.home-link {
-    text-decoration: none;
-    color: #333;
-}
 
-.search-form {
-    margin-top: 20px;
-}
 
-.search-input {
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.profile-link, .auth-link {
-    display: block;
-    margin-top: 10px;
-    text-decoration: none;
-    color: #007bff;
-}
-
-.greeting {
-    font-weight: bold;
-    margin-top: 20px;
-}
