@@ -1,16 +1,48 @@
-{% extends 'main.html' %}
 
+{% extends 'main.html' %}
+{% load static %}
 {% block content %}
 
-<!-- {%  csrf_token %}
-{% for field in form %}
-<div>
-{{field.label}}
-{{field}}
-</div>
-{% endfor %} -->
+<!-- Пример формы для редактирования данных пользователя -->
+<form method="POST" action="{% url 'update-user' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'styles/form_styles.css' %}">
+  {% csrf_token %}
 
-<form class="form"  method="POST" >
+  <div class="form__group">
+      <label for="id_name">Имя</label>
+      <input type="text" name="name" id="id_name" value="{{ user.name }}">
+  </div>
+
+  <div class="form__group">
+    <label for="id_username">Логин</label>
+    <input type="text" name="username" id="id_username"value="{{ user.username }}">
+  </div>
+
+  <div class="form__group">
+      <label for="id_email">Email</label>
+      <input type="email" name="email" id="id_email" value="{{ user.email }}">
+  </div>
+
+  <div class="form__group">
+      <label for="id_bio">Биография</label>
+      <textarea name="bio" id="id_bio">{{ user.bio }}</textarea>
+  </div>
+
+
+  <div class="form__buttons">
+    <a href="/" class="btn btn-secondary">Отменить</a>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</div>
+
+
+</form>
+
+
+  {% endblock content %}
+
+
+  {% comment %} <form class="form"  method="POST" >
     {% csrf_token %}
 
     {% for field in form %}
@@ -22,10 +54,7 @@
 
 
     <div>
-      <a href="/">Отменитm</a>
+      <a href="/">Отменить</a>
       <button type="submit">Сохранение</button>
     </div>
-  </form>
-
-
-  {% endblock content %}
+  </form> {% endcomment %}
