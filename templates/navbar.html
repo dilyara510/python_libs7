@@ -1,16 +1,16 @@
 <a href="/">
-    <h1>На главную</h1>
+    <h1>Вернуться на главную</h1>
 </a>
 
 <form method="GET" action="{%url 'home' %}">
     <input type="text" name="q" placeholder="Поиск задания..."/>
-
 </form>
+
 <a href="{% url 'update-user' %}">Редактировать профиль</a>
 
-{{request.user.avatar}}
+
 {% if request.user.is_authenticated %}
-<p>Hello {{request.user}}</p>
+<p>Приветствую, {{request.user.name}}!</p>
 <a href="{% url 'logout' %}">Выход</a>
 {% else %}
 <a href="{% url 'login' %}">Вход</a>
