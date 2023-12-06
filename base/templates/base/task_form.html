@@ -1,34 +1,43 @@
-{% extends 'main.html' %}
-{% load static %}
-{% block content %}
-
+{% extends 'main.html' %} {% load static %} {% block content %}
 
 <div>
     <form method="POST" action="">
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'styles/form_styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'styles/form_styles.css' %}" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         {% csrf_token %}
         <div class="form__group">
-        <label for="id_name">Название</label>
-        <input type="text" name="name" id="id_name" value="{{ task.name }}">
+            <label for="id_name">Название</label>
+            <input type="text" name="name" id="id_name" value="{{ task.name }}" />
         </div>
 
         <div class="form__group">
             <label for="id_description">Описание</label>
-            <input type="text" name="description" id="id_description" value="{{ task.description }}">
-            </div>
+            <input type="text" name="description" id="id_description" value="{{ task.description }}" />
+        </div>
+
+        <div class="form__group">
+            <label for="id_deadline">Выберите дедлайн:</label>
+            <input type="text" name="deadline" id="id_deadline" value="{{ task.deadline }}">
+        </div>
 
         <div class="form__group">
             <label for="id_topic">Выберите тему:</label>
             {{ form.topic }}
         </div>
-{% comment %}         {{ form.as_p}} {% endcomment %}
+        {% comment %} {{ form.as_p}} {% endcomment %}
         <div class="form__buttons">
             <a href="/" class="btn btn-secondary">Отменить</a>
             <button type="submit" class="btn btn-primary">Сохранить</button>
         </div>
-     
     </form>
 </div>
 
+<script>
+    flatpickr("#id_deadline", {
+        enableTime: true,  // Разрешить выбор времени
+        dateFormat: "Y-m-d H:i",  // Формат даты и времени
+    });
+</script>
 {% endblock content %}
