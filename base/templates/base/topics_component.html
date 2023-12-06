@@ -8,13 +8,11 @@
 
     <ul class="list-group">
         {% for topic in topics %}
-          <li class="list-group-item {% if topic.name == selected_topic %}active{% endif %}">
-            <a href="{% url 'home' %}?q={{ topic.name }}" class="stretched-link">
-              {{ topic.name }}
-            </a>
-          </li>
+            <li class="list-group-item {% if topic.name == selected_topic %}active{% endif %}">
+                <a href="{% url 'home' %}?q={{ topic.name }}" class="text-dark stretched-link">
+                    {{ topic.name }}
+                </a>
+            </li>
         {% endfor %}
-      </ul>
-      
-
+    </ul>
 </div>

@@ -7,13 +7,38 @@
         display: grid;
         grid-template-columns: 3fr 1fr;
     }
+
+    
+
+    .task-details h1 {
+        font-size: 36px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .task-details h2 {
+        font-size: 28px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .task-details h3 {
+        font-size: 24px;
+        color: #777;
+        margin-bottom: 20px;
+    }
 </style>
 
 <div class="task-container">
 
         <div>
-        <h1>Тема: {{task.name}}</h1>
-        <h2>Задание: {{task.description}}</h2>
+
+        <div class="task-details">
+        <h1>Тема: {{task.topic}}</h1>
+        <h2>Название: {{task.name}}</h2>
+        <h3>Описание: {{task.description}}</h3>
+        </div>
+
         <div class="comment-wrapper">
             <h3>Прикреплённые решения</h3>
             <hr>
