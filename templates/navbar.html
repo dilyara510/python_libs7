@@ -15,10 +15,12 @@
 
     <div style="display: flex; flex-direction: column; align-items: center; margin-right: 350px;">
         {% if request.user.is_authenticated %}
+        <a href="{% url 'home' %}">{{request.user.username}}</a>
         <a href="{% url 'logout' %}">Выход</a>
-        <a href="{% url 'update-user' %}" style="margin-top: 5px;">Редактировать профиль</a>
+        <a href="{% url 'update-user' %}" style="margin-top: 5px;">Редактировать</a>
         {% else %}
         <a href="{% url 'login' %}">Вход</a>
         {% endif %}
+
     </div>
 </div>

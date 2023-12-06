@@ -84,3 +84,13 @@
 .form__buttons button {
     margin: 0 10px;
 }
+
+
+.form__group select {
+    width: 300px; /* Пример стилей для выпадающего списка */
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
