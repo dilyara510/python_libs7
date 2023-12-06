@@ -167,19 +167,17 @@ def updateTask(request, pk):
     task = Task.objects.get(id=pk)
     form = TaskForm(instance=task)
     topics = Topic.objects.all()
+
     if request.user != task.host:
         return HttpResponse('Доступ запрещен!')
 
     if request.method == 'POST':
-        topic_name = request.POST.get('topic')
-        topic, created = Topic.objects.get_or_create(name=topic_name)
-        task.name = request.POST.get('name')
-        task.topic = topic
-        task.description = request.POST.get('description')
-        task.save()
-        return redirect('home')
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
 
-    context = {'form': form, 'topics': topics, 'room': task}
+    context = {'form': form, 'topics': topics, 'task': task}
     return render(request, 'base/task_form.html', context)
 
 
