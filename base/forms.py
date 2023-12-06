@@ -1,6 +1,6 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, ModelChoiceField
 from django import forms
-from . models import Task, User, Message
+from . models import Task, User, Message, Topic
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -13,6 +13,7 @@ class MyUserCreationForm(UserCreationForm):
 
 
 class TaskForm(ModelForm):
+    topic = ModelChoiceField(queryset=Topic.objects.all())
     class Meta:
         model = Task
         fields='__all__'
