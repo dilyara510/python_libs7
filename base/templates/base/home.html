@@ -8,34 +8,34 @@
         grid-template-columns: 1fr 3fr 1fr;
     }
 
-    .create-task-button {
-        margin-top: 20px;  /* Добавляем отступ сверху, чтобы разделить кнопку от списка заданий */
-    }
 </style>
 
 <div class="home-container">
-
     <div>
         {% include 'base/topics_component.html' %}
     </div>
 
     <div class="container mt-3">
-        <h5>{{ task_count }} заданий доступно</h5>
-
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Задания</h3>
+                <h5>Доступно: {{ task_count }}</h5>
+            </div>
+            <div class="col-md-6 text-md-right">
+                <a href="{% url 'create-task' %}" class="btn btn-primary btn-xl btn-sm create-task-button">
+                    <i class="fas fa-plus"></i> Создать задание
+                </a>
+            </div>
+        </div>
         <div class="mt-3">
             {% include 'base/feed_component.html' %}
-
-            <!-- Кнопка "Создать задание" -->
-            <a href="{% url 'create-task' %}" class="btn btn-primary btn-sm create-task-button">
-                <i class="fas fa-plus"></i>
-            </a>
         </div>
     </div>
 
     <div>
         {% include 'base/activity_component.html' %}
     </div>
-
 </div>
+
 
 {% endblock content %}
