@@ -14,28 +14,11 @@
         <div>
         <h1>Тема: {{task.name}}</h1>
         <h2>Задание: {{task.description}}</h2>
-        <h1>Тема: {{task.name}}</h1>
-        <h2>Задание: {{task.description}}</h2>
         <div class="comment-wrapper">
-            <h3>Прикреплённые решения</h3>
             <h3>Прикреплённые решения</h3>
             <hr>
         
-        
             {% for message in task_messages %}
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <small class="text-muted">{{ message.user }}</small><br>
-                        <small class="text-muted">{{ message.created|timesince }} назад</small>
-                        <p>{{ message.body }}</p>
-        
-                        {% if message.attachment %}
-                            <a href="{{ message.attachment.url }}" download class="btn btn-primary btn-sm">Скачать файл</a>
-                        {% endif %}
-                        {% if request.user == message.user %}
-                        <a href="{% url 'delete-message' message.id %}" class="btn btn-danger btn-sm">Удалить</a>
-                        {% endif %}
-                    </div>
                 <div class="card mb-3">
                     <div class="card-body">
                         <small class="text-muted">{{ message.user }}</small><br>
@@ -78,6 +61,9 @@
             </div>
         {% endif %}
 
+        
+    
+
         {% if messages %}
           <ul class="messages">
             {% for message in messages %}
@@ -86,25 +72,21 @@
           </ul>
         {% endif %}
         {% endif %}
-        {% endif %}
 
     {% endif %}
     </div>
 
     <div>
         <h3>Решения отправили</h3>
-        <h3>Решения отправили</h3>
         <hr>
 
         {% for user in participants %}
             <div>
-                <p>{{user.name}}</p>
                 <p>{{user.name}}</p>
             </div>
 
         {% endfor %}
     </div>
 </div>
-
 
 {% endblock %}
