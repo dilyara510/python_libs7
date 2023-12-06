@@ -151,6 +151,7 @@ def task(request, pk):
         form = MessageForm()
 
     context = {'task': task, 'task_messages': task_messages, 'participants': participants, 'form': form, 'user_message_count': user_message_count}
+    context = {'task': task, 'task_messages': task_messages, 'participants': participants, 'form': form, 'user_message_count': user_message_count}
     return render(request, 'base/task.html', context)
 
 
