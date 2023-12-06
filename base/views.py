@@ -117,8 +117,16 @@ def home(request):
 
 def task(request, pk):
     task = Task.objects.get(id=pk)
-    task_messages = task.message_set.all().order_by('-created')
     participants = task.participants.all()
+
+    if request.user.is_authenticated:
+        if request.user.role == 'admin':
+            task_messages = task.message_set.all().order_by('-created')
+        else:
+            task_messages = task.message_set.filter(user=request.user).order_by('-created')
+    else:
+        task_messages = []
+    
     
     user_message_count = 0
     for message in task_messages:
@@ -142,6 +150,7 @@ def task(request, pk):
     else:
         form = MessageForm()
 
+    context = {'task': task, 'task_messages': task_messages, 'participants': participants, 'form': form, 'user_message_count': user_message_count}
     context = {'task': task, 'task_messages': task_messages, 'participants': participants, 'form': form, 'user_message_count': user_message_count}
     return render(request, 'base/task.html', context)
 
