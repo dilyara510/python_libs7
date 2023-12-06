@@ -1,4 +1,4 @@
-from django.forms import ModelForm, ModelChoiceField
+from django.forms import ModelForm, ModelChoiceField, widgets
 from django import forms
 from . models import Task, User, Message, Topic
 from django.contrib.auth.forms import UserCreationForm
@@ -29,4 +29,4 @@ class UserForm(ModelForm):
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['body', 'attachment']
+        fields = ['body', 'attachment', 'rating']
