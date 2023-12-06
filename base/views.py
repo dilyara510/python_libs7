@@ -119,7 +119,13 @@ def task(request, pk):
     task = Task.objects.get(id=pk)
     task_messages = task.message_set.all().order_by('-created')
     participants = task.participants.all()
+    
+    user_message_count = 0
+    for message in task_messages:
+        if message.user == request.user:
+            user_message_count += 1
 
+    
     if request.method == 'POST':
         form = MessageForm(request.POST, request.FILES)
         if form.is_valid():
@@ -136,7 +142,7 @@ def task(request, pk):
     else:
         form = MessageForm()
 
-    context = {'task': task, 'task_messages': task_messages, 'participants': participants, 'form': form}
+    context = {'task': task, 'task_messages': task_messages, 'participants': participants, 'form': form, 'user_message_count': user_message_count}
     return render(request, 'base/task.html', context)
 
 

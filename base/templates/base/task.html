@@ -12,34 +12,30 @@
 <div class="task-container">
 
         <div>
-
-        
-
-        <h1>{{task.name}}</h1>
-
-        <p>{{task.description}}</p>
-
-
-
+        <h1>Тема: {{task.name}}</h1>
+        <h2>Задание: {{task.description}}</h2>
         <div class="comment-wrapper">
-            <h3>Комментарии</h3>
+            <h3>Прикреплённые решения</h3>
             <hr>
-
+        
             {% for message in task_messages %}
-                <div>
-                    {% if request.user == message.user %}
-                    <a href="{% url 'delete-message' message.id %}">Удалить</a>
-                    {% endif %}
-                    <small>@{{message.user}}  {{message.created|timesince}}ago </small>
-
-                    <p>{{message.body}}</p>
-
-                    {% if message.attachment %}
-                        <a href="{{ message.attachment.url }}" download>Скачать файл</a>
-                    {% endif %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <small class="text-muted">{{ message.user }}</small><br>
+                        <small class="text-muted">{{ message.created|timesince }} назад</small>
+                        <p>{{ message.body }}</p>
+        
+                        {% if message.attachment %}
+                            <a href="{{ message.attachment.url }}" download class="btn btn-primary btn-sm">Скачать файл</a>
+                        {% endif %}
+                        {% if request.user == message.user %}
+                        <a href="{% url 'delete-message' message.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                        {% endif %}
+                    </div>
                 </div>
             {% endfor %}
         </div>
+        
 
         
 
@@ -47,15 +43,30 @@
         {% if success %}
             <p>Задание успешно отправлено!</p>
         {% else %}
-            <div class="comment-form">
-                <form method="POST" action="" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="text" name="body" placeholder="Оставьте ваш комментарий"/>
-                    <input type="file" name="attachment"/>
-                    <button type="submit">Отправить</button>
-                </form>
+        
+        {% if user_message_count == 0 %}
+    <div class="comment-form mt-3">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="body">Введите комментарий к решению</label>
+                <input type="text" name="body" id="body" class="form-control" placeholder="Введите комментарий к решению"/>
             </div>
-        {% endif %}   
+            <div class="form-group">
+                <label for="attachment">Прикрепить файл</label>
+                <input type="file" name="attachment" id="attachment" class="form-control-file"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+{% else %}
+    <div class="alert alert-info mt-3" role="alert">
+        <p>Вы уже отправили задание</p>
+    </div>
+{% endif %}
+
+        
+    
 
         {% if messages %}
           <ul class="messages">
@@ -64,17 +75,18 @@
             {% endfor %}
           </ul>
         {% endif %}
+        {% endif %}
 
     {% endif %}
     </div>
 
     <div>
-        <h3>Участники чата</h3>
+        <h3>Решения отправили</h3>
         <hr>
 
         {% for user in participants %}
             <div>
-                <p>@{{user.username}}</p>
+                <p>{{user.name}}</p>
             </div>
 
         {% endfor %}

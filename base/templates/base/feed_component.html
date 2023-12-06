@@ -1,15 +1,17 @@
 {% for task in tasks %}
-<div>
-  <h5>
-    {% if request.user == task.host %}
-    <a href="{% url 'update-task' task.id %}">Редактировать</a>
-    <a href="{% url 'delete-task' task.id %}">Удалить</a>
-    {% endif %}
+  <div class="card mt-3">
+    <div class="card-body">
+      <h5 class="card-title">
+        {% if request.user == task.host %}
+          <a href="{% url 'update-task' task.id %}" class="btn btn-outline-primary btn-sm mr-2">Редактировать</a>
+          <a href="{% url 'delete-task' task.id %}" class="btn btn-outline-danger btn-sm">Удалить</a>
+        {% endif %}
 
-    <a href="{% url 'user-profile' task.host.id %}"> @{{task.host.username}}</a>
+        <a href="{% url 'user-profile' task.host.id %}" class="text-dark">@{{ task.host.username }}</a>
 
-    {{task.id}} -- <a href="{% url 'task' task.id %}"> {{task.name}}</a>
-    <small>{{task.topic.name}}</small>
-  </h5>
-</div>
+        {{ task.id }} -- <a href="{% url 'task' task.id %}" class="text-primary">{{ task.name }}</a>
+        <small class="text-muted">{{ task.topic.name }}</small>
+      </h5>
+    </div>
+  </div>
 {% endfor %}
