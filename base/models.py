@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models  import AbstractUser
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
+from datetime import timedelta
 
 class User(AbstractUser):
     name = models.CharField(max_length=200, null=True)
@@ -32,6 +33,7 @@ class Task(models.Model):
     participants = models.ManyToManyField(User, related_name = 'participants', blank = True)
     updated = models.DateTimeField(auto_now = True)
     created = models.DateTimeField(auto_now_add = True)
+    deadline = models.DateTimeField(null = True, blank = True)
 
     class Meta:
         ordering=['-updated','-created']
@@ -47,6 +49,7 @@ class Message(models.Model):
     attachment = models.FileField(upload_to='message_files/', null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    rating = models.IntegerField(null=True, blank=True)
 
     class Meta:
         ordering = ['-updated','-created']

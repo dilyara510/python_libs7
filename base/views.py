@@ -5,14 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Task, Topic, Message, User
 from .forms import TaskForm, UserForm, MyUserCreationForm, MessageForm
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, admin_required
 from django.http import HttpResponse
-
-# tasks = [
-#     {'id': 1, 'name': 'Задание 1'},
-#     {'id': 2, 'name': 'Задание 2'},
-#     {'id': 3, 'name': 'Задание 3'},
-# ]
 
 def loginPage(request):
     page = 'login'
@@ -113,6 +107,18 @@ def home(request):
         return render(request, 'base/home.html', context)
     else:
         return redirect('login')
+    
+
+def rate_message(request, pk):
+    message = Message.objects.get(id=pk)
+
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        if rating:
+            message.rating = rating
+            message.save()
+
+    return redirect('task', pk=message.task.id)
 
 
 def task(request, pk):
@@ -142,6 +148,12 @@ def task(request, pk):
             message.task = task
             message.save()
 
+            if request.user.role == 'admin':
+                rating = request.POST.get('rating')
+                if rating:
+                    message.rating = rating
+                    message.save()
+
             task.participants.add(request.user)
             success = True
         else:
@@ -163,6 +175,7 @@ def userProfile(request, pk):
                'task_messages': task_messages, 'topics': topics}
     return render(request, 'base/profile.html', context)
 
+@admin_required(login_url = 'login') 
 @login_required(login_url = 'login') 
 def createTask(request):
     form=TaskForm()
@@ -176,6 +189,7 @@ def createTask(request):
     context={'form':form}
     return render(request, 'base/task_form.html', context)
 
+@admin_required(login_url = 'login') 
 @login_required(login_url = 'login')
 def updateTask(request, pk):
     task = Task.objects.get(id=pk)
@@ -194,7 +208,7 @@ def updateTask(request, pk):
     context = {'form': form, 'topics': topics, 'task': task}
     return render(request, 'base/task_form.html', context)
 
-
+@admin_required(login_url = 'login') 
 @login_required(login_url='login') 
 def deleteTask(request,pk):
     task=Task.objects.get(id=pk)

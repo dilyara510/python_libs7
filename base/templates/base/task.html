@@ -42,19 +42,32 @@
         <div class="comment-wrapper">
             <h3>Прикреплённые решения</h3>
             <hr>
-        
+            
             {% for message in task_messages %}
                 <div class="card mb-3">
                     <div class="card-body">
                         <small class="text-muted">{{ message.user }}</small><br>
                         <small class="text-muted">{{ message.created|timesince }} назад</small>
                         <p>{{ message.body }}</p>
-        
+
                         {% if message.attachment %}
                             <a href="{{ message.attachment.url }}" download class="btn btn-primary btn-sm">Скачать файл</a>
                         {% endif %}
                         {% if request.user == message.user %}
-                        <a href="{% url 'delete-message' message.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                            <a href="{% url 'delete-message' message.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                        {% endif %}
+
+                        {% if request.user.role == 'admin' %}
+                            <form method="post" action="{% url 'rate-message' message.id %}">
+                                {% csrf_token %}
+                                <label for="rating">Оценка:</label>
+                                <input type="number" name="rating" min="1" max="5">
+                                <button type="submit">Поставить оценку</button>
+                            </form>
+                        {% endif %}
+
+                        {% if message.rating %}
+                            <p>Оценка: {{ message.rating }}</p>
                         {% endif %}
                     </div>
                 </div>
