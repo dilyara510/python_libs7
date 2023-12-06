@@ -1,17 +1,18 @@
 {% for task in tasks %}
   <div class="card mt-3">
-    <div class="card-body">
+    <div class="card-body d-flex justify-content-between">
       <h5 class="card-title">
-        {% if request.user == task.host %}
-          <a href="{% url 'update-task' task.id %}" class="btn btn-outline-primary btn-sm mr-2">Редактировать</a>
-          <a href="{% url 'delete-task' task.id %}" class="btn btn-outline-danger btn-sm">Удалить</a>
-        {% endif %}
-
-        <a href="{% url 'user-profile' task.host.id %}" class="text-dark">@{{ task.host.username }}</a>
-
+        <a href="{% url 'user-profile' task.host.id %}" class="text-dark">{{ task.host.username }}</a>
         {{ task.id }} -- <a href="{% url 'task' task.id %}" class="text-primary">{{ task.name }}</a>
         <small class="text-muted">{{ task.topic.name }}</small>
       </h5>
+
+      {% if request.user == task.host %}
+        <div>
+          <a href="{% url 'update-task' task.id %}" class="btn btn-outline-primary btn-sm mr-2">Редактировать</a>
+          <a href="{% url 'delete-task' task.id %}" class="btn btn-outline-danger btn-sm">Удалить</a>
+        </div>
+      {% endif %}
     </div>
   </div>
 {% endfor %}
