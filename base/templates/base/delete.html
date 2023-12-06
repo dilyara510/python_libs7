@@ -1,18 +1,58 @@
 {% extends 'main.html' %}
-
+{% load static %}
 {% block content %}
 
-<div>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style>
+    .delete-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .delete-form p {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+    }
+
+    .btn--main {
+        background-color: #007bff;
+        color: #fff;
+        border: 1px solid #007bff;
+    }
+
+    .btn--main:hover {
+        background-color: #0056b3;
+        border: 1px solid #0056b3;
+    }
+</style>
+
+<div class="delete-form">
     <form class="form" method="POST" action="">
         {% csrf_token %}
         <div>
-            <p>Вы точно хотите удалить "{{ obj }}"?</p>
+            <p>Вы точно хотите удалить {{ obj }}?</p>
         </div>
 
-        <div class="form__group">
+        <div class="btn-container">
+            <a href="/" class="btn btn-secondary">Отмена</a>
             <input class="btn btn--main" type="submit" value="Подтвердить" />
         </div>
-
     </form>
 </div>
+
 {% endblock content %}
