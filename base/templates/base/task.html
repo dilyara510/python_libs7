@@ -35,38 +35,31 @@
                 </div>
             {% endfor %}
         </div>
-        
-
-        
 
         {% if request.user.is_authenticated %}
         {% if success %}
             <p>Задание успешно отправлено!</p>
         {% else %}
-        
         {% if user_message_count == 0 %}
-    <div class="comment-form mt-3">
-        <form method="POST" action="" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="body">Введите комментарий к решению</label>
-                <input type="text" name="body" id="body" class="form-control" placeholder="Введите комментарий к решению"/>
+            <div class="comment-form mt-3">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="body">Введите комментарий к решению</label>
+                        <input type="text" name="body" id="body" class="form-control" placeholder="Введите комментарий к решению"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment">Прикрепить файл</label>
+                        <input type="file" name="attachment" id="attachment" class="form-control-file"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="attachment">Прикрепить файл</label>
-                <input type="file" name="attachment" id="attachment" class="form-control-file"/>
+        {% else %}
+            <div class="alert alert-info mt-3" role="alert">
+                <p>Вы уже отправили задание</p>
             </div>
-            <button type="submit" class="btn btn-primary">Отправить</button>
-        </form>
-    </div>
-{% else %}
-    <div class="alert alert-info mt-3" role="alert">
-        <p>Вы уже отправили задание</p>
-    </div>
-{% endif %}
-
-        
-    
+        {% endif %}
 
         {% if messages %}
           <ul class="messages">
@@ -92,5 +85,6 @@
         {% endfor %}
     </div>
 </div>
+
 
 {% endblock %}
