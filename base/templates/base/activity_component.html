@@ -8,7 +8,7 @@
         <div>
             <small >{{message.task}}</small>
             <div></div>
-            <small>Решение от <a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a></small>
+            <small>Решение от <a href="{% url 'user-profile' message.user.id %}">{{message.user}}</a></small>
             <div></div>
             <small >Время отправки: {{message.created|timesince}} назад</small>
 

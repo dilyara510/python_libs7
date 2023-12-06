@@ -1,5 +1,3 @@
-
-
 {% extends 'main.html' %}
 
 {% block content %}
@@ -8,11 +6,11 @@
     <form class="form" method="POST" action="">
         {% csrf_token %}
         <div>
-            <p>Вы точно хотите удалить? "{{obj}}"?</p>
+            <p>Вы точно хотите удалить "{{ obj }}"?</p>
         </div>
 
-        <div class="for__group">
-            <input class="btn btn--main" type="submit" value="Confirm" />
+        <div class="form__group">
+            <input class="btn btn--main" type="submit" value="Подтвердить" />
         </div>
 
     </form>
