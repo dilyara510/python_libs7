@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class MyUserCreationForm(UserCreationForm):
-    role = forms.CharField(widget=forms.HiddenInput(), initial='user')
+    role = forms.CharField(widget=forms.HiddenInput(), initial='user', required=False)
 
     class Meta:
         model = User

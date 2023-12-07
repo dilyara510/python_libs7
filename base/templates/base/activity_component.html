@@ -21,7 +21,7 @@
 </style>
 
 <div class="container mt-4">
-    <h3>Недавняя активность</h3>
+    <h3>Отправленные решения</h3>
     <hr>
 
     {% if task_messages %}
@@ -33,9 +33,8 @@
                 <small>Решение от <a href="{% url 'user-profile' message.user.id %}">{{ message.user }}</a></small>
                 <div></div>
                 <small>Время отправки: {{ message.created|timesince }} назад</small>
-
                 <div>
-                    {% if request.user == message.user %}
+                    {% if request.user.role == "admin" %}
                         <a href="{% url 'task' message.task.id %}" class="btn btn-sm btn-outline-dark delete-btn">Перейти</a>
                     {% endif %}
                 </div>
