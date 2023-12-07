@@ -1,18 +1,108 @@
-{% for task in tasks %}
-  <div class="card mt-3">
-    <div class="card-body d-flex justify-content-between">
-      <h5 class="card-title">
-        <a href="{% url 'user-profile' task.host.id %}" class="text-dark">{{ task.host.username }}</a>
-        {{ task.id }} -- <a href="{% url 'task' task.id %}" class="text-primary">{{ task.name }}</a>
-        <small class="text-muted">{{ task.topic.name }}</small>
-      </h5>
+{% load static %}
 
-      {% if request.user == task.host %}
-        <div>
-          <a href="{% url 'update-task' task.id %}" class="btn btn-outline-primary btn-sm mr-2">Редактировать</a>
-          <a href="{% url 'delete-task' task.id %}" class="btn btn-outline-danger btn-sm">Удалить</a>
-        </div>
-      {% endif %}
-    </div>
+<style>
+  .card-container {
+      max-width: 400px;
+      margin: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .name {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+  }
+
+  .task-name {
+      font-size: 18px;
+      color: #007bff; /* цвет ссылки */
+      margin-bottom: 5px;
+      text-decoration: none;
+  }
+
+  .task-name:hover {
+      text-decoration: underline; /* подчеркивание при наведении */
+  }
+
+  .topic {
+      font-size: 14px;
+      color: #6c757d; /* цвет для текста меньшего размера */
+  }
+</style>
+
+<style>
+  .card-container {
+      border: 1px solid #ddd;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+  }
+
+  .name,
+  .task-name,
+  .topic {
+      margin-bottom: 5px;
+  }
+
+  .actions {
+      display: flex;
+      justify-content: flex-end;
+  }
+
+  .action-btn {
+      margin-left: 10px;
+      cursor: pointer;
+  }
+
+  .action-btn img {
+      width: 20px; 
+      height: 20px; 
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+      {% for task in tasks %}
+          <div class="col-md-4">
+              <div class="card-container card mt-3">
+                  <div class="card-body d-flex justify-content-between">
+                      <h5 class="card-title">
+                          <div class="name">
+                              <a href="{% url 'user-profile' task.host.id %}" class="text-dark">{{ task.host.name }}</a>
+                          </div>
+                          <div class="task-name">
+                            <a href="{% url 'task' task.id %}" class="text-primary">{{ task.name|truncatechars:19 }}</a>
+                        </div>
+                          <div class="topic">
+                              <small class="text-muted">{{ task.topic.name }}</small>
+                          </div>
+                      </h5>
+
+                      <div class="actions">
+                          {% if request.user == task.host %}
+                              <div class="action-btn">
+                                  <a href="{% url 'update-task' task.id %}">
+                                      <img src="{% static 'images/edit.svg' %}" alt="Edit">
+                                  </a>
+                              </div>
+                              <div class="action-btn">
+                                  <a href="{% url 'delete-task' task.id %}">
+                                      <img src="{% static 'images/delete.svg' %}" alt="Delete">
+                                  </a>
+                              </div>
+                              
+
+                              
+                          {% endif %}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      {% endfor %}
   </div>
-{% endfor %}
+  
+
+</div>

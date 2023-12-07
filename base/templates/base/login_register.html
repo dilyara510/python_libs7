@@ -58,6 +58,7 @@
       <div class="form__buttons">
         <a class="btn btn-secondary" href="{% url 'login' %}" style="display: block;">Вход</a>
       </div>
+      {{ form.errors }}
     </form>
   {% endif %}
 </div>

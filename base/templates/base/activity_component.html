@@ -1,27 +1,50 @@
+<style>
+    .comment-card {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+
+    .comment-card small {
+        color: #888;
+    }
+
+    .comment-card p {
+        margin: 10px 0;
+    }
+
+    .delete-btn {
+        margin-top: 10px;
+    }
+</style>
+
 <div class="container mt-4">
-<h3>Недавняя активность</h3>
-<hr>
+    <h3>Отправленные решения</h3>
+    <hr>
 
-{% if task_messages %}
+    {% if task_messages %}
 
-    {% for message in task_messages %}
-        <div>
-            <small >{{message.task}}</small>
-            <div></div>
-            <small>Решение от <a href="{% url 'user-profile' message.user.id %}">{{message.user}}</a></small>
-            <div></div>
-            <small >Время отправки: {{message.created|timesince}} назад</small>
+        {% for message in task_messages %}
+            <div class="comment-card">
+                <small>{{ message.task }}</small>
+                <div></div>
+                <small>Решение от <a href="{% url 'user-profile' message.user.id %}">{{ message.user }}</a></small>
+                <div></div>
+                <small>Время отправки: {{ message.created|timesince }} назад</small>
+                <div>
+                    {% if request.user.role == "admin" %}
+                        <a href="{% url 'task' message.task.id %}" class="btn btn-sm btn-outline-dark delete-btn">Перейти</a>
+                    {% endif %}
+                </div>
+                
+                
 
-            <p>{{message}}</p>
-            {% if request.user == message.user %}
-            <a href="{% url 'delete-message' message.id %}">Удалить</a>
-            {% endif %}
+            </div>
+        {% endfor %}
 
-            <hr>
-        </div>
-    {% endfor %}
-{% else %}
-    <p>Никто ничего не выложил</p>
-{% endif %}
-
-    </div> 
+    {% else %}
+        <p>Никто ничего не выложил</p>
+    {% endif %}
+</div>
