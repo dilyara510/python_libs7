@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Task, Topic, Message, User
 from .forms import TaskForm, UserForm, MyUserCreationForm, MessageForm
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, admin_required
+from django.contrib.auth.decorators import login_required, admin_required, user_passes_test
 from django.http import HttpResponse
 
 def loginPage(request):
@@ -175,22 +175,22 @@ def userProfile(request, pk):
                'task_messages': task_messages, 'topics': topics}
     return render(request, 'base/profile.html', context)
 
-@admin_required(login_url = 'login') 
-@login_required(login_url = 'login') 
+@login_required(login_url='login') 
+@user_passes_test(lambda u: u.is_staff, login_url='login') 
 def createTask(request):
-    form=TaskForm()
-    if request.method=='POST':
-        form=TaskForm(request.POST)
+    form = TaskForm()
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
         if form.is_valid():
-            task=form.save(commit=False)
-            task.host=request.user
+            task = form.save(commit=False)
+            task.host = request.user
             task.save()
             return redirect('home')
-    context={'form':form}
+    context = {'form': form}
     return render(request, 'base/task_form.html', context)
 
-@admin_required(login_url = 'login') 
 @login_required(login_url = 'login')
+@user_passes_test(lambda u: u.is_staff, login_url='login') 
 def updateTask(request, pk):
     task = Task.objects.get(id=pk)
     form = TaskForm(instance=task)
@@ -208,8 +208,8 @@ def updateTask(request, pk):
     context = {'form': form, 'topics': topics, 'task': task}
     return render(request, 'base/task_form.html', context)
 
-@admin_required(login_url = 'login') 
-@login_required(login_url='login') 
+@login_required(login_url='login')
+@user_passes_test(lambda u: u.is_staff, login_url='login') 
 def deleteTask(request,pk):
     task=Task.objects.get(id=pk)
 
@@ -252,3 +252,4 @@ def topicsPage(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     topics = Topic.objects.filter(name__icontains=q)
     return render(request, 'base/topics.html', {'topics': topics})  
+

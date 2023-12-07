@@ -36,7 +36,7 @@
 <style>
   .card-container {
       border: 1px solid #ddd;
-      border-radius: 5px;
+      border-radius: 15px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       margin: 10px;
   }
@@ -74,8 +74,8 @@
                               <a href="{% url 'user-profile' task.host.id %}" class="text-dark">{{ task.host.name }}</a>
                           </div>
                           <div class="task-name">
-                              <a href="{% url 'task' task.id %}" class="text-primary">{{ task.name }}</a>
-                          </div>
+                            <a href="{% url 'task' task.id %}" class="text-primary">{{ task.name|truncatechars:19 }}</a>
+                        </div>
                           <div class="topic">
                               <small class="text-muted">{{ task.topic.name }}</small>
                           </div>
