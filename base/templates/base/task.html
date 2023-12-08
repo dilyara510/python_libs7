@@ -90,6 +90,233 @@
     
 </style>
 
+<script>
+    function isDeadlinePassed() {
+        var current_time = new Date();
+
+        // Преобразуем строку task.deadline в объект Date
+        var deadlineString = "{{ task.deadline }}";
+        var deadlineParts = deadlineString.split(' ');
+        var day = parseInt(deadlineParts[0], 10);
+        var monthName = deadlineParts[1];
+        var year = parseInt(deadlineParts[2], 10);
+        var timeParts = deadlineParts[4].split(':');
+        var hours = parseInt(timeParts[0], 10);
+        var minutes = parseInt(timeParts[1], 10);
+
+        // Месяцы в JavaScript начинаются с 0, поэтому вычитаем 1
+        var monthMap = {
+            'января': 0, 'февраля': 1, 'марта': 2, 'апреля': 3, 'мая': 4, 'июня': 5,
+            'июля': 6, 'августа': 7, 'сентября': 8, 'октября': 9, 'ноября': 10, 'декабря': 11
+        };
+        var month = monthMap[monthName];
+
+        var task_deadline = new Date(year, month, day, hours, minutes);
+
+        // Сравниваем даты
+        if (current_time > task_deadline) {
+            document.getElementById("deadline-check").innerHTML = "Дедлайн прошел!";
+            console.log('Дедлайн прошёл');
+            return true;
+        } else {
+            document.getElementById("deadline-check").innerHTML = "Дедлайн не прошел!";
+            document.getElementById("deadline-check").style.display = "none";
+            console.log('Дедлайн не прошёл');
+            return false;
+        }
+    }
+
+    
+</script>
+
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .task-details {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 20px;
+        max-width: 100000px;
+        text-align: left;
+
+    }
+
+    h1, h2, h3 {
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        color: #333;
+        font-size: 24px;
+    }
+
+    h2 {
+        color: #666;
+        font-size: 20px;
+        margin-top: 10px;
+    }
+
+    h3 {
+        color: #999;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+</style>
+
+<style>
+
+    .comment-wrapper {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 20px;
+        max-width: 100000px    /* или измените на нужное вам значение */
+        text-align: left;
+
+        margin: 20px;
+    }
+
+    h3 {
+        color: #333;
+        font-size: 24px;
+    }
+
+    hr {
+        border: 1px solid #ddd;
+        margin: 10px 0;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .text-muted {
+        color: #888;
+    }
+
+    .btn {
+        margin-right: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    form {
+        margin-top: 15px;
+    }
+
+    label {
+        margin-right: 5px;
+    }
+
+    input[type="number"] {
+        width: 50px;
+        margin-right: 5px;
+    }
+
+    button[type="submit"] {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>
+
+
+<style>
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .text-muted {
+        color: #888;
+        display: block; /* Добавлено для улучшения вертикального выравнивания */
+        margin-bottom: 5px; /* Добавлено для улучшения вертикального выравнивания */
+    }
+
+    .btn-group {
+        margin-top: 10px; /* Отступ для кнопок */
+    }
+
+    .btn {
+        margin-right: 10px;
+    }
+
+    .btn-primary,
+    .btn-danger,
+    button[type="submit"] {
+        text-align: left; /* Выравнивание по левому краю */
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    form {
+        display: flex; /* Сделаем форму флекс-контейнером */
+        align-items: center; /* Выравнивание по вертикали по центру */
+    }
+
+    label {
+        margin-right: 10px;
+    }
+
+    input[type="number"] {
+        width: 50px;
+        margin-right: 10px;
+    }
+
+    button[type="submit"] {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    .rating {
+        margin-top: 10px; /* Отступ для отображения оценки */
+    }
+
+</style>
+
 <div class="task-container">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
         <div>
@@ -141,8 +368,12 @@
         {% if success %}
             <p>Задание успешно отправлено!</p>
         {% else %}
+
+        
+
         {% if user_message_count == 0 %}
         {% if request.user.role != 'admin' %}
+
             <div class="comment-form mt-3">
                 <form method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -154,18 +385,26 @@
                         <label for="attachment">Прикрепить файл</label>
                         <input type="file" name="attachment" id="attachment" class="form-control-file"/>
                     </div>
-                    <button type="submit" class="btn btn-primary">Отправить</button>
+                    <button type="submit" id="specificSubmitButton" class="btn btn-primary">Отправить</button>
                 </form>
             </div>
-            {% endif %}
+        {% endif %}
         {% else %}
+        
+        
             <div class="alert alert-info mt-3" role="alert">
                 <p>Вы уже отправили задание</p>
             </div>
         {% endif %}
 
+        <div class="alert alert-info mt-3" role="alert" id="deadline-check" style="margin-left: 20px; margin-right: 20px;">
+            <p></p>
+        </div>
         
-    
+        
+
+        
+        
         {% if messages %}
           <ul class="messages">
             {% for message in messages %}
@@ -184,11 +423,13 @@
     
         {% for user in participants %}
             <div class="user-card">
-                <p>{{ user.name }}</p>
+                <p>{{user.name}} - {{user.email}}</p>
             </div>
         {% endfor %}
     </div>
 </div>
+
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const ratingButtons = document.querySelectorAll('.rating-btn');
@@ -208,6 +449,69 @@
                 this.classList.add('selected');
             });
         });
+    });
+
+</script>
+
+
+
+<script>
+    console.log('Значение isDeadlinePassed:',  isDeadlinePassed() );
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector('form');
+        const specificSubmitButton = document.getElementById('specificSubmitButton'); // Идентификатор или класс нужной кнопки
+
+        if (specificSubmitButton) {
+            specificSubmitButton.addEventListener('click', function (event) {
+
+                // Ваша пользовательская функция
+                if (check_d()) {
+                    event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
+                    alert('Ошибка: Дедлайн прошёл!');
+                } else {
+
+                }
+            });
+        }
+
+        function check_d() {
+            var current_time = new Date();
+    
+            // Преобразуем строку task.deadline в объект Date
+            var deadlineString = "{{ task.deadline }}";
+            var deadlineParts = deadlineString.split(' ');
+            var day = parseInt(deadlineParts[0], 10);
+            var monthName = deadlineParts[1];
+            var year = parseInt(deadlineParts[2], 10);
+            var timeParts = deadlineParts[4].split(':');
+            var hours = parseInt(timeParts[0], 10);
+            var minutes = parseInt(timeParts[1], 10);
+    
+            // Месяцы в JavaScript начинаются с 0, поэтому вычитаем 1
+            var monthMap = {
+                'января': 0, 'февраля': 1, 'марта': 2, 'апреля': 3, 'мая': 4, 'июня': 5,
+                'июля': 6, 'августа': 7, 'сентября': 8, 'октября': 9, 'ноября': 10, 'декабря': 11
+            };
+            var month = monthMap[monthName];
+    
+            var task_deadline = new Date(year, month, day, hours, minutes);
+    
+            // Сравниваем даты
+            if (current_time > task_deadline) {
+                document.getElementById("deadline-check").innerHTML = "Дедлайн прошел!";
+                console.log('Дедлайн прошёл');
+                return true;
+            } else {
+                document.getElementById("deadline-check").innerHTML = "Дедлайн не прошел!";
+                document.getElementById("deadline-check").style.display = "none";
+                console.log('Дедлайн не прошёл');
+                return false;
+            }
+        }
     });
 </script>
 {% endblock %}

@@ -1,15 +1,96 @@
-<div class="container mt-4">
-    <h3 class="mb-4">Темы заданий</h3>
+<style>
+    .custom-container {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .custom-heading {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .custom-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .custom-list-item {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .custom-list-link {
+        text-decoration: none;
+        color: #007bff;
+        display: block;
+        padding: 10px;
+        transition: color 0.3s ease;
+        background-color: #ffffff; /* Цвет фона для ссылок */
+        border-radius: 5px;
+    }
+
+    .custom-list-link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    .custom-list-item.active {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+
+    .custom-button {
+        display: inline-block;
+        padding: 10px 0;
+        font-size: 16px;
+        text-align: left;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom-button-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: 1px solid #007bff;
+    }
+
+    .custom-button-primary:hover {
+        background-color: #0056b3;
+        border: 1px solid #0056b3;
+    }
+
+    .custom-button-all {
+        background-color: #fff;
+        color: #333;
+        border: 1px solid #ddd;
+        width: 100%;
+        padding-left: 20px;
+    }
+
+    .custom-button-all:hover {
+        background-color: #ddd;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<div class="custom-container">
+    <h3 class="custom-heading">Темы заданий</h3>
     <hr>
 
-    <div class="d-flex justify-content-between mb-3">
-        <a href="{% url 'home' %}" class="btn btn-primary">Все</a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="{% url 'home' %}" class="custom-button custom-button-all btn-block text-left">Все</a>
     </div>
 
-    <ul class="list-group">
+    <ul class="custom-list">
         {% for topic in topics %}
-            <li class="list-group-item {% if topic.name == selected_topic %}active{% endif %}">
-                <a href="{% url 'home' %}?q={{ topic.name }}" class="text-dark stretched-link">
+            <li class="custom-list-item {% if topic.name == selected_topic %}active{% endif %}">
+                <a href="{% url 'home' %}?q={{ topic.name }}" class="custom-list-link">
                     {{ topic.name }}
                 </a>
             </li>
