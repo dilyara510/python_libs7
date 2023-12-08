@@ -5,8 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Task, Topic, Message, User
 from .forms import TaskForm, UserForm, MyUserCreationForm, MessageForm
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, admin_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
+from django.utils import timezone
 
 def loginPage(request):
     page = 'login'
@@ -123,6 +124,7 @@ def rate_message(request, pk):
 
 def task(request, pk):
     task = Task.objects.get(id=pk)
+    now = timezone.now()
     participants = task.participants.all()
 
     if request.user.is_authenticated:
