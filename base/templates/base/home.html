@@ -7,7 +7,6 @@
         display: grid;
         grid-template-columns: 1fr 3fr 1fr;
     }
-
 </style>
 
 <div class="home-container">
@@ -17,13 +16,13 @@
 
     <div class="container mt-3">
         <div class="row">
-            <div class="col-md-6">
-                <h3>Задания</h3>
-                <h5>Доступно: {{ task_count }}</h5>
+            <div class="col-md-6" >
+                <h3 style="margin-left: 30px">Задания</h3>
+                <h5 style="margin-left: 30px">Доступно: {{ task_count }}</h5>
             </div>
-            <div class="col-md-6 text-md-right">
-                <a href="{% url 'create-task' %}" class="btn btn-primary btn-xl btn-sm create-task-button">
-                    <i class="fas fa-plus"></i> Создать задание
+            <div class="col-md-6 text-md-right"  >
+                <a href="{% url 'create-task' %}" style="margin-right: 30px" class="btn btn-primary btn-xl btn-sm create-task-button">
+                    <i class="fas fa-plus" ></i> Создать задание
                 </a>
             </div>
         </div>

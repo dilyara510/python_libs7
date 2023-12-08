@@ -74,11 +74,14 @@
                               <a href="{% url 'user-profile' task.host.id %}" class="text-dark">{{ task.host.name }}</a>
                           </div>
                           <div class="task-name">
-                            <a href="{% url 'task' task.id %}" class="text-primary">{{ task.name|truncatechars:19 }}</a>
+                            <a href="{% url 'task' task.id %}" class="text-primary">{{ task.name|truncatechars:15 }}</a>
                         </div>
                           <div class="topic">
                               <small class="text-muted">{{ task.topic.name }}</small>
                           </div>
+                          <div class="topic">
+                            <small class="text-muted">Дедлайн: {{ task.deadline }}</small>
+                        </div>
                       </h5>
 
                       <div class="actions">
