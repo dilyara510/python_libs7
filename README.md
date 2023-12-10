@@ -29,7 +29,9 @@ Bootstrap v4.5.3
 # Разработчики
 
 Сайфуллина Диляра
-Юсупов Данил
+
+[Юсупов Данил]([https://vk.com/dany1612](https://sun9-18.userapi.com/impf/cCNk_eNp1A-1KxurrcZIHsnhmuBzD0FK4wIeyg/FRWBuz9F6H4.jpg?size=1080x595&quality=95&sign=0d4477395194e3e4a1a9826599fd10e3&type=album)https://sun9-18.userapi.com/impf/cCNk_eNp1A-1KxurrcZIHsnhmuBzD0FK4wIeyg/FRWBuz9F6H4.jpg?size=1080x595&quality=95&sign=0d4477395194e3e4a1a9826599fd10e3&type=album)
+
 Крапачев Данил
 
 # Ссылка на сайт
