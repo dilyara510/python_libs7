@@ -25,6 +25,7 @@ Django (4.2.7)
 Bootstrap v4.5.3
 
 # Схема данных
+![image](https://github.com/dilyara510/python_libs7/assets/116317453/f1961cf8-8c78-4ccd-a61e-bc2543ebf5dc)
 
 # Разработчики
 
