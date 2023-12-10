@@ -26,6 +26,8 @@ Bootstrap v4.5.3
 
 # Схема данных
 ![image](https://github.com/dilyara510/python_libs7/assets/116317453/f1961cf8-8c78-4ccd-a61e-bc2543ebf5dc)
+![image](https://github.com/dilyara510/python_libs7/assets/148912254/2b647453-bb42-4f05-9408-aaad69cc1864)
+
 
 # Разработчики
 
